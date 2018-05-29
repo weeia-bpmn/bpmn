@@ -1,0 +1,47 @@
+<form name="repair-phone">
+    <div class="form-group">
+        <label for="infoForClient">Information for client</label>
+        <input
+                class="form-control"
+                cam-variable-type="String"
+                cam-variable-name="infoForClient"
+                name="infoForClient"/>
+    </div>
+    <div class="form-group">
+        <label for="phoneDeliveryDate">Date of the phone repair</label>
+        <input class="form-control"
+               cam-variable-type="Date"
+               required
+               cam-variable-name="phoneDeliveryDate"
+               datepicker-popup="yyyy-MM-dd'T'HH:mm:ss"
+               is-open="dateFieldOpened"
+               name="phoneDeliveryDate"/>
+        <span class="input-group-btn">
+    <button type="button"
+            class="btn btn-default"
+            ng-click="open($event)">
+      <i class="glyphicon glyphicon-calendar"></i>
+    </button>
+  </span>
+    </div>
+    <div class="form-group">
+        <label for="cost">Cost (PLN)</label>
+        <input
+                class="form-control"
+                cam-variable-type="Long"
+                cam-variable-name="cost"
+                name="cost"/>
+    </div>
+
+
+    <script cam-script type="text/form-script">
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.dateFieldOpened = true;
+  };
+
+
+    </script>
+</form>
