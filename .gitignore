@@ -39,3 +39,4 @@ secrets.yml
 .gradletasknamecache
 .sts4-cache
 /src/main/resources/mail-configuration.properties
+/src/main/resources/sms-configuration.properties

@@ -1,6 +1,7 @@
 package bpmnproject.bpmn.delegate;
 
 import bpmnproject.bpmn.mail.MailService;
+import bpmnproject.bpmn.sms.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -16,6 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ClientPayRepairEndMessageDelegate implements JavaDelegate {
     private final MailService mailService;
+    private final SmsService smsService;
 
 
     @Override
@@ -25,7 +27,7 @@ public class ClientPayRepairEndMessageDelegate implements JavaDelegate {
         String content = createContent(execution);
 
         mailService.sendMessage(customerEmail, "Naprawa telefonu - serwis gwarancyjny", content);
-
+        smsService.sendSMS(content);
     }
 
     private String createContent(DelegateExecution execution) {

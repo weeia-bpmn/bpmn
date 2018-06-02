@@ -1,6 +1,7 @@
 package bpmnproject.bpmn.delegate;
 
 import bpmnproject.bpmn.mail.MailService;
+import bpmnproject.bpmn.sms.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomerPayForRepairQuestionMessageDelegate implements JavaDelegate {
     private final MailService mailService;
+    private final SmsService smsService;
 
     @Value("${application.url}")
     private String appUrl;
@@ -26,8 +28,7 @@ public class CustomerPayForRepairQuestionMessageDelegate implements JavaDelegate
         String content = createContent(execution);
 
         mailService.sendMessage(customerEmail, "Naprawa niemożliwa - Serwis gwarancyjny", content);
-
-
+        smsService.sendSMS(content);
     }
 
     private String createContent(DelegateExecution execution) {
