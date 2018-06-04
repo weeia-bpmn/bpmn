@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RepairController {
     private final RuntimeService runtimeService;
 
-    @GetMapping("/repair/{businessKey}")
+    @GetMapping("/repair/{processId}")
     public void repairResponse(@PathVariable String processId, @RequestParam Boolean pay) {
         System.out.println("Proces id: " + processId + " pay: " + pay);
         MessageCorrelationResult result = runtimeService.createMessageCorrelation("pay_message")
