@@ -40,6 +40,6 @@ public class CustomerPayForRepairQuestionMessageDelegate implements JavaDelegate
     }
 
     private String getPayForRepair(Boolean repair, DelegateExecution execution) {
-        return appUrl + "/repair/" + execution.getBusinessKey() + "?pay=" + repair.toString();
+        return appUrl + "/repair/" + execution.getProcessInstanceId() + "?pay=" + repair.toString();
     }
 }

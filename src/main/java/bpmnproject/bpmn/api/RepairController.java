@@ -17,10 +17,10 @@ public class RepairController {
     private final RuntimeService runtimeService;
 
     @GetMapping("/repair/{businessKey}")
-    public void repairResponse(@PathVariable String businessKey, @RequestParam Boolean pay) {
-        System.out.println("Proces id: " + businessKey + " pay: " + pay);
+    public void repairResponse(@PathVariable String processId, @RequestParam Boolean pay) {
+        System.out.println("Proces id: " + processId + " pay: " + pay);
         MessageCorrelationResult result = runtimeService.createMessageCorrelation("pay_message")
-                .processInstanceBusinessKey(businessKey)
+                .processInstanceId(processId)
                 .setVariable("clientPay", pay)
                 .correlateWithResult();
     }
