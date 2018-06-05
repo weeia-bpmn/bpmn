@@ -18,16 +18,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ReplacePhoneToNewMessageEndEventDelegate implements JavaDelegate {
     private final MailService mailService;
-    private final SmsService smsService;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String customerEmail = (String) execution.getVariable("customerEmail");
-        String customerPhone = (String) execution.getVariable("customerPhone");
         String content = createContent(execution);
 
         mailService.sendMessage(customerEmail, "Wymiana telefonu na nowy - serwis gwarancyjny", content);
-        smsService.sendSMS(content,customerPhone);
     }
 
     private String createContent(DelegateExecution execution) {

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Serwisowanie Online</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/static/css/signin.css"/>
+    <th:block th:insert="~{fragments/common.html :: header}"/>
+</head>
+<body>
+<div class="container">
+
+    <h2 class="login-form-heading text-center"
+        th:text="${'Witaj ' + customerPhoneInfo.customerName + ' ' + customerPhoneInfo.customerSurname}"></h2>
+    <div>
+        <h3 class="login-form-heading text-center"
+            th:text="${'Diagnoza twojego telefonu -  ' + customerPhoneInfo.brand + ' ' + customerPhoneInfo.model}"></h3>
+        <div th:text="*{customerPhoneInfo.diagnosisDescription}"></div>
+    </div>
+
+
+    <form id="login-form" class="login-form" th:action="@{${'/web/repair/' + processId}}" method="POST">
+        <div class="form-group">
+            <label for="code" class="sr-only">Przepis kod z wysłanego sms'a</label>
+            <input id="code" type="text" name="code" class="form-control" placeholder="Kod wysłany sms'em"
+                   required="required" autofocus="autofocus"/>
+            <p th:if="${invalidCode}">Nieprawidłowy kod wygeneruj nowy bądź spróbuj ponowanie</p>
+        </div>
+
+        <div>
+            <label for="option">Czy zgadzasz się na naprawę na swój koszt?</label>
+            <select id="option" name="agreement">
+                <option value="true">Tak</option>
+                <option value="false">Nie</option>
+            </select>
+        </div>
+
+        <button id="saveBtn" class="btn btn-lg btn-primary btn-block" type="submit">Zatwierdź</button>
+    </form>
+    <form th:action="@{${'/web/repair/' + processId}}">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Generuj nowy kod</button>
+    </form>
+</div>
+</body>
+</html>

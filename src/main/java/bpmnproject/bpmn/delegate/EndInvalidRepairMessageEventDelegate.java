@@ -15,14 +15,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EndInvalidRepairMessageEventDelegate implements JavaDelegate {
     private final MailService mailService;
-    private final SmsService smsService;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String customerEmail = (String) execution.getVariable("customerEmail");
-        String customerPhone = (String) execution.getVariable("customerPhone");
         String message = (String) execution.getVariable("clientMessage");
         mailService.sendMessage(customerEmail, "Serwis gwarancyjny - naprawa niemożliwa", message);
-        smsService.sendSMS(message,customerPhone);
     }
 }

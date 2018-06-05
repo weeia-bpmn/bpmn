@@ -17,28 +17,25 @@ import org.springframework.stereotype.Component;
 public class CustomerPayForRepairQuestionMessageDelegate implements JavaDelegate {
     private final MailService mailService;
     private final SmsService smsService;
-    private String smsText="";
     @Value("${application.url}")
     private String appUrl;
 
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String customerEmail = (String) execution.getVariable("customerEmail");
-        String customerPhone = (String) execution.getVariable("customerPhone");
         String content = createContent(execution);
         mailService.sendMessage(customerEmail, "Naprawa niemożliwa - Serwis gwarancyjny", content);
-        smsService.sendSMS(content,customerPhone);
     }
 
     private String createContent(DelegateExecution execution) {
         String diagnosisDescription = (String) execution.getVariable("diagnosisDescription");
         String content = "Naprawa gwarancyjna niemożliwa, powstała awaria jest z winy klienta.\n" +
-                "Diagnoza: \n" + diagnosisDescription + "\n" + "\n\n Jeżeli chcesz naprawić na swój koszt kliknij tu -> "
-                + getPayForRepair(true, execution) + "\n Jeżeli nie chcesz naprawić na swój koszt kliknij tutaj -> " + getPayForRepair(false, execution);
+                "Diagnoza: \n" + diagnosisDescription + "\n" + "\n\n Kliknij w podany link, aby zadecydować o dalszych losach telefonu -> "
+                + getPayForRepair(execution);
         return content;
     }
 
-    private String getPayForRepair(Boolean repair, DelegateExecution execution) {
-        return appUrl + "/repair/" + execution.getProcessInstanceId() + "?pay=" + repair.toString();
+    private String getPayForRepair(DelegateExecution execution) {
+        return appUrl + "/web/repair/" + execution.getProcessInstanceId();
     }
 }
