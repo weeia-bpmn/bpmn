@@ -20,8 +20,9 @@ public class EndInvalidRepairMessageEventDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) throws Exception {
         String customerEmail = (String) execution.getVariable("customerEmail");
+        String customerPhone = (String) execution.getVariable("customerPhone");
         String message = (String) execution.getVariable("clientMessage");
         mailService.sendMessage(customerEmail, "Serwis gwarancyjny - naprawa niemożliwa", message);
-        smsService.sendSMS(message);
+        smsService.sendSMS(message,customerPhone);
     }
 }

@@ -8,19 +8,19 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 @Service
 public class SmsService {
     @Value("${twilio.accountsid}")
     private String accountSid;
     @Value("${twilio.auth_token}")
     private String authToken;
-    @Value("${twilio.receiverNumber}")
-    private String receiverNumber;
     @Value("${twilio.senderNumber}")
     private String senderNumber;
 
     @Async
-    public void sendSMS(String messageBody){
+    public void sendSMS(String messageBody,String receiverNumber){
         Twilio.init(accountSid, authToken);
         Message message = Message.creator(new PhoneNumber(receiverNumber),
                 new PhoneNumber(senderNumber),
@@ -28,4 +28,8 @@ public class SmsService {
     }
 
 
+    public String generateRandomCode() {
+        final int randomCode = new Random().nextInt(((9999 - 1000) + 1) + 1000);
+        return String.valueOf(randomCode);
+    }
 }
