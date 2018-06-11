@@ -5,27 +5,26 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="/static/css/signin.css"/>
+    <link href="/style/styles.css" th:href="@{/style/styles.css}" rel="stylesheet" media="screen"/>
     <th:block th:insert="~{fragments/common.html :: header}"/>
 </head>
 <body>
-<div class="container">
+<div>
 
-    <h2 class="login-form-heading text-center"
+    <h2 class="login-form-heading text-center" style="padding-top: 100px"
         th:text="${'Witaj ' + customerPhoneInfo.customerName + ' ' + customerPhoneInfo.customerSurname}"></h2>
-    <div>
-        <h3 class="login-form-heading text-center"
-            th:text="${'Diagnoza twojego telefonu -  ' + customerPhoneInfo.brand + ' ' + customerPhoneInfo.model}"></h3>
-        <div th:text="*{customerPhoneInfo.diagnosisDescription}"></div>
+    <div class="login-form-heading text-center">
+        <h4 th:text="${'Diagnoza telefonu ' + customerPhoneInfo.brand + ' ' + customerPhoneInfo.model}"></h4>
+        <p style="font-weight: bold" th:text="${'Diagnoza: ' + customerPhoneInfo.diagnosisDescription}"></p>
     </div>
 
 
-    <form id="login-form" class="login-form" th:action="@{${'/web/repair/' + processId}}" method="POST">
+    <form id="login-form" class="main-form" th:action="@{${'/web/repair/' + processId}}" method="POST">
         <div class="form-group">
             <label for="code" class="sr-only">Przepis kod z wysłanego sms'a</label>
             <input id="code" type="text" name="code" class="form-control" placeholder="Kod wysłany sms'em"
                    required="required" autofocus="autofocus"/>
-            <p th:if="${invalidCode}">Nieprawidłowy kod wygeneruj nowy bądź spróbuj ponowanie</p>
+            <p style="color: darkred" th:if="${invalidCode}">Nieprawidłowy kod. Wprowadź nowy kod wsyłany w wiadomości sms.</p>
         </div>
 
         <div>
@@ -38,7 +37,7 @@
 
         <button id="saveBtn" class="btn btn-lg btn-primary btn-block" type="submit">Zatwierdź</button>
     </form>
-    <form th:action="@{${'/web/repair/' + processId}}">
+    <form class="main-form" th:action="@{${'/web/repair/' + processId}}">
         <button type="submit" class="btn btn-lg btn-primary btn-block">Generuj nowy kod</button>
     </form>
 </div>

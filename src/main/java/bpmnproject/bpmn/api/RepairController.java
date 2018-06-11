@@ -28,11 +28,10 @@ public class RepairController {
 
     @PostMapping("/web/repair/{processId}")
     public String repairResponse(@PathVariable String processId, @RequestParam("code") String code,
-                               @RequestParam("agreement") Boolean agreement, Model model) {
+                                 @RequestParam("agreement") Boolean agreement, Model model) {
 
         String verifyCode = (String) session.getAttribute("code");
         if (verifyCode == null || !verifyCode.equals(code)) {
-//            model.addAttribute("invalidCode", true);
             return showCustomerForm(processId, model, true);
         }
 
@@ -46,10 +45,20 @@ public class RepairController {
 
     @GetMapping("/web/repair/{processId}")
     public String showCustomerForm(@PathVariable("processId") String processId, Model model, boolean invalid) {
-        model.addAttribute("customerPhoneInfo", engineInfoService.getCustomerPhoneInf(processId));
-        model.addAttribute("processId", processId);
-        model.addAttribute("invalidCode", invalid);
-        generateCode(processId);
+        if (engineInfoService.clientPayExist(processId)) {
+            return "error";
+        }
+
+        try {
+            model.addAttribute("customerPhoneInfo", engineInfoService.getCustomerPhoneInf(processId));
+            model.addAttribute("processId", processId);
+            model.addAttribute("invalidCode", invalid);
+            generateCode(processId);
+        } catch (Exception e) {
+            return "error";
+        }
+
+
         return "customer-form";
     }
 

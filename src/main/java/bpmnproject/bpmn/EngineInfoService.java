@@ -37,4 +37,7 @@ public class EngineInfoService {
                 .build();
     }
 
+    public boolean clientPayExist(String processId) {
+        return service.getVariable(processId, "clientPay") != null;
+    }
 }
